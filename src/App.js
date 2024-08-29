@@ -1,6 +1,5 @@
 import React from 'react'
 import SignIn from './components/SignIn'
-import NavBar from './components/NavBar'
 import { Route,Routes } from 'react-router-dom'
 import Main from './components/Main'
 

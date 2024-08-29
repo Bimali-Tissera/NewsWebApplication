@@ -1,9 +1,13 @@
 import React from 'react'
 import NavBar from './NavBar'
+import Home from './Home'
+
 function Main() {
   return (
-    <div>
+    <div className='grid grid-rows-2'>
+    
         <NavBar/>
+        <Home/>
     </div>
   )
 }

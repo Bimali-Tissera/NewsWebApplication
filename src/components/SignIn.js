@@ -3,13 +3,18 @@ import frontBanner from "../images/bannerbanner.jpg"
 import logo from "../images/logo_inshorts.webp"
 import {signInWithPopup} from "firebase/auth"
 import {auth,googleProvider} from "../firebase/setup"
-
+import { useNavigate } from 'react-router-dom'
 
  function SignIn() {
+
+    const navigate = useNavigate()
+
     const googleSignin = async() => {
     
         try{
            await signInWithPopup(auth,googleProvider) 
+            auth.currentUser && navigate("/")
+        
         }catch(err){
         console.error(err)
 
