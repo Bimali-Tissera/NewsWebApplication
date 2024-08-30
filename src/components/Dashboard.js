@@ -1,17 +1,91 @@
-import React from 'react'
-import { Link} from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { getDatabase, ref, onValue } from 'firebase/database';
+import { Link } from 'react-router-dom'
+import NavBar from '../components/NavBar';
 
-function Dashboard() {
-  return (
-    <div className='p-4'>
+const Dashboard = () => {
+    const [articles, setArticles] = useState([]);
+
+    useEffect(() => {
+        const db = getDatabase(); // Initialize Firebase Database
+        const newsRef = ref(db, 'news'); // Reference to the 'news' node
+
+        // Listen for changes in the database
+        onValue(newsRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                const articlesArray = Object.keys(data).map((key) => ({
+                    id: key,
+                    ...data[key],
+                }));
+                setArticles(articlesArray);
+            } else {
+                setArticles([]);
+            }
+        });
+    }, []);
+
+    return (
+
+      <div>
+         <div className='p-4'>
         <Link to='/createArticle'>
         <button className="bg-gray-500  hover:bg-slate-600 text-white font-bold py-2 px-4 rounded mr-40">
-         Create Article
+        Create Article
         </button>
         </Link>
-        
-    </div>
-  )
-}
+      </div>
+         <div className=''>
 
-export default Dashboard
+            <div className='text-center'>
+                <h1 className='text-black text-3xl font-semibold'>Dashboard</h1>
+                <table className="min-w-full mt-7 mb-7">
+                    <thead>
+                        <tr>
+                            <th className="py-2  bg-gray-500">Title</th>
+                            <th className="py-2  bg-gray-500">Content</th>
+                            <th className="py-2 bg-gray-500 ">Summary</th>
+                            <th className="py-2  bg-gray-500">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {articles.length > 0 ? (
+                            articles.map((article) => (
+                                <tr key={article.id} className="text-center">
+                                    <td className="border px-4 py-2">{article.title}</td>
+                                    <td className="border px-4 py-2">{article.content}</td>
+                                    <td className="border px-4 py-2">{article.summary}</td>
+                                    <td>
+                                    <Link to='/createArticle'>
+                                      <button className="bg-gray-500  hover:bg-slate-600 text-white font-bold py-2 px-4 rounded mr-40">
+                                        Edit
+                                      </button>
+                                    </Link>
+
+                                    <Link to='/createArticle'>
+                                      <button className="bg-gray-500  hover:bg-slate-600 text-white font-bold py-2 px-4 rounded mr-40">
+                                        Delete
+                                      </button>
+                                    </Link>
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr>
+                                <td colSpan="3" className="text-center py-4">
+                                    No articles found.
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
+            </div>
+            </div>
+
+
+      </div>
+       
+    );
+};
+
+export default Dashboard;

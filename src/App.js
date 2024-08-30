@@ -14,6 +14,7 @@ function App() {
       <Route path='/' element={<Main/>} />
       <Route path='/createArticle' element={<CreateArticle/>}/>
       <Route path='/dashboard' element={<Dashboard/>}/>
+      <Route path='/update/:id' element={<CreateArticle/>}/>
       
     </Routes>
     </>
