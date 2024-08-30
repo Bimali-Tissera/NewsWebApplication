@@ -28,7 +28,7 @@ import { useNavigate } from 'react-router-dom'
         <div className='text-center'>
             <img src={logo} className='h-16 ml-60 mt-32'></img>
             <h1 className='text-black text-3xl font-semibold mt-7'>Sign in</h1>
-            <button onClick={googleSignin} class="bg-gray-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded h-14 w-96 mt-14">
+            <button onClick={googleSignin} className="bg-gray-700 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded h-14 w-96 mt-14">
                 Sign In
             </button>
             <h4 className='text-black underline mt-7'>Sign in now</h4>

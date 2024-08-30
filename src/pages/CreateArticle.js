@@ -58,7 +58,7 @@ const CreateArticle =()  =>{
         <NavBar/>
             <div className='text-center ml-60 mr-60 '>
             <h1 className='text-black text-3xl font-semibold mt-7'>Create Article</h1>   
-            <form class=" shadow-lg rounded px-8 pt-6 pb-8 mb-4 mt-10 bg-gray-300" onSubmit={handleSubmit}>
+            {/* <form class=" shadow-lg rounded px-8 pt-6 pb-8 mb-4 mt-10 bg-gray-300" onSubmit={handleSubmit}>
 
                 <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
@@ -105,17 +105,17 @@ const CreateArticle =()  =>{
 
                     
 
-                </div>
+                {/* </div>
 
                 <button className="bg-gray-500  hover:bg-slate-600 text-white font-bold py-2 px-4 rounded mr-40 mt-6 ml-50">
                 <input type='submit' value="Create"/>
                     </button>
-                
+                 */}
 
                
                 
 
-            </form>
+            {/* </form> */} 
             
             </div>
             
