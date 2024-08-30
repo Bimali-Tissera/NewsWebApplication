@@ -44,7 +44,6 @@ const Dashboard = () => {
 
     return (
         <div>
-            <NavBar />
             <div className='p-4'>
                 <Link to='/createArticle'>
                     <button className="bg-gray-500 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded mr-40">
