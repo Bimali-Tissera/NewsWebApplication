@@ -9,9 +9,10 @@ import {signOut} from  'firebase/auth'
 
 function NavBar() {
 
-const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const logout = async() =>{
+    
     try{
       await signOut(auth)
       navigate("/")
@@ -24,7 +25,7 @@ const navigate = useNavigate()
   console.log(auth)
 
   return (
-    <div className='grid grid-cols-3 bg-gray-300 text-gray-500 fixed'>
+    <div className='grid grid-cols-3 bg-gray-300 text-gray-500 flex'>
       <div className='flex p-2'>
         <img src={logo} className='h-10 mt-3'/>
         {auth.currentUser ?
