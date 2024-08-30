@@ -1,6 +1,7 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp,getApp,getApps} from "firebase/app";
+import { getDatabase } from "firebase/database";
 import {getAuth,GoogleAuthProvider} from "firebase/auth"
-
+import "firebase/database"
 
 const firebaseConfig = {
   apiKey: "AIzaSyBgTn0xzZMaBYevb-l4p63HbXIlr4iYPqo",
@@ -13,8 +14,16 @@ const firebaseConfig = {
   measurementId: "G-4Z6T2NW2MX"
 };
 
-const app = initializeApp(firebaseConfig);
-// const fireDb = initializeApp(firebaseConfig);
-export const auth =getAuth(app)
+// const app = initializeApp(firebaseConfig);
+// const fireDb = firebase.initializeApp(firebaseConfig);
+// export const auth =getAuth(app)
+// export const googleProvider= new GoogleAuthProvider(app)
+// export default fireDb.database().ref();
+
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+//const db = getFirestore(app);
+//const auth = getAuth(app);
+const dbRealtime = getDatabase(app);
+const auth = getAuth(app)
 export const googleProvider= new GoogleAuthProvider(app)
-export default fireDb.database().ref();
+export { auth, dbRealtime };

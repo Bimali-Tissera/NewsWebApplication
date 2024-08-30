@@ -1,8 +1,8 @@
 import React,{useState,useEffect,useRef,useHistory} from 'react'
-import fireDb from "../firebase/setup"
+import {dbRealtime} from '../firebase/setup';
 import NavBar from '../components/NavBar';
 import photo from '../images/photo.jpg';
-import {toast} from "react-toastify"
+// import {toast} from "react-toastify"
 
 const initialState={
     name:"",
@@ -25,15 +25,15 @@ const CreateArticle =()  =>{
     const handleSubmit = (e) => {
         e.preventDefault();
         if(!title || !content || !summary){
-            toast.error("Please provide value in each input field");
+            // toast.error("Please provide value in each input field");
             
         } else{
-            fireDb.child("news").push(state,(err) =>{
+            dbRealtime.child("news").push(state,(err) =>{
                 if (err){
-                    toast.error(err);
+                    // toast.error(err);
 
                 }else {
-                    toast.success("Article added successfully")
+                    // toast.success("Article added successfully")
                 }
             });
             // setTimeout(() => history.push("/dashboard"),500)
