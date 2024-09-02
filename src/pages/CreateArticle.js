@@ -1,22 +1,26 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getDatabase, ref, push, update, get } from 'firebase/database';
-import { useNavigate, useParams } from 'react-router-dom'; // Import useNavigate and useParams
+import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { v4 as uuidv4 } from 'uuid';
+import { useNavigate, useParams } from 'react-router-dom';
 import NavBar from '../components/NavBar';
-import photo from '../images/photo.jpg';
 import { toast } from 'react-toastify';
 
 const initialState = {
     title: "",
     content: "",
-    summary: ""
+    summary: "",
+    imageUrl: ""
 };
 
 const CreateArticle = () => {
     const [state, setState] = useState(initialState);
+    const [image, setImage] = useState(null);
     const { title, content, summary } = state;
     const db = getDatabase();
-    const navigate = useNavigate(); // Initialize useNavigate
-    const { id } = useParams(); // Get the article id from URL params if editing an article
+    const storage = getStorage();
+    const navigate = useNavigate();
+    const { id } = useParams();
 
     useEffect(() => {
         if (id) {
@@ -34,39 +38,43 @@ const CreateArticle = () => {
         setState({ ...state, [name]: value });
     };
 
-    const handleSubmit = (e) => {
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0]);
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!title || !content || !summary) {
-            toast.error("Please provide value in each input field");
+        if (!title || !content || !summary || !image) {
+            toast.error("Please provide value in each input field and select an image.");
             return;
         }
 
-        const newsRef = ref(db, 'news');
-        const newArticle = { title, content, summary };
+        try {
+            let imageUrl = '';
+            if (image) {
+                const imageName = `${uuidv4()}-${image.name}`;
+                const imageRef = storageRef(storage, `images/${imageName}`);
+                await uploadBytes(imageRef, image);
+                imageUrl = await getDownloadURL(imageRef);
+            }
 
-        if (id) {
-            // Update existing article
-            const articleRef = ref(db, `news/${id}`);
-            update(articleRef, newArticle)
-                .then(() => {
-                    toast.success("Article updated successfully");
-                    navigate('/dashboard'); // Redirect to dashboard
-                })
-                .catch((error) => {
-                    toast.error("Failed to update article: " + error.message);
-                });
-        } else {
-            // Create new article
-            push(newsRef, newArticle)
-                .then(() => {
-                    toast.success("Article added successfully");
-                    setState(initialState); // Clear the form fields
-                    navigate('/dashboard'); // Redirect to dashboard
-                })
-                .catch((error) => {
-                    toast.error("Failed to add article: " + error.message);
-                });
+            const newArticle = { title, content, summary, imageUrl };
+
+            if (id) {
+                const articleRef = ref(db, `news/${id}`);
+                await update(articleRef, newArticle);
+                toast.success("Article updated successfully");
+            } else {
+                const newsRef = ref(db, 'news');
+                await push(newsRef, newArticle);
+                toast.success("Article added successfully");
+                setState(initialState);
+            }
+
+            navigate('/dashboard');
+        } catch (error) {
+            toast.error("Failed to save article: " + error.message);
         }
     };
 
@@ -119,6 +127,19 @@ const CreateArticle = () => {
                             placeholder="Summary"
                             value={summary}
                             onChange={handleInputChange}
+                        />
+                    </div>
+
+                    <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">
+                            Upload Image
+                        </label>
+                        <input
+                            type="file"
+                            id="image"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         />
                     </div>
 

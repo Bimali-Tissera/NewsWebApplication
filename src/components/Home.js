@@ -25,13 +25,13 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="container mx-auto ">
-          <NavBar/>
+        <div className="container mx-auto">
+          <NavBar />
             <h1 className="text-3xl font-bold text-center mb-8">Latest News</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {articles.map((article) => (
-                    <div key={article.id} className="max-w-sm rounded overflow-hidden shadow-lg">
-                        <img className="w-full" src="/img/card-top.jpg" alt="News Image" />
+                    <div key={article.id} className="max-w-sm bg-gray-100 rounded overflow-hidden shadow-lg">
+                        <img className="w-60 h-40 ml-7 mt-3" src={article.imageUrl || '/img/card-top.jpg'} alt={article.title || 'News Image'} />
                         <div className="px-6 py-4">
                             <div className="font-bold text-xl mb-2">{article.title}</div>
                             <p className="text-gray-700 text-base">{article.content}</p>
