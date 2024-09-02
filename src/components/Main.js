@@ -3,6 +3,7 @@ import NavBar from './NavBar'
 import Home from './Home'
 import {auth} from '../firebase/setup'
 import Dashboard from './Dashboard'
+import SignIn from './SignIn'
 
 function Main() {
   return (
@@ -10,12 +11,12 @@ function Main() {
     
        
         
-        { auth.currentUser? 
+        {/* { auth.currentUser? 
          <Dashboard/>
         :
         <Home/>
-        }
-       
+        } */}
+       <SignIn/>
         
     </div>
   )
