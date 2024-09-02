@@ -43,7 +43,9 @@ const Dashboard = () => {
     };
 
     return (
+        
         <div>
+          <NavBar/>
             <div className='p-4'>
                 <Link to='/createArticle'>
                     <button className="bg-gray-500 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded mr-40">
@@ -70,11 +72,17 @@ const Dashboard = () => {
                                     <td className="border px-4 py-2">{article.content}</td>
                                     <td className="border px-4 py-2">{article.summary}</td>
                                     <td>
-                                        <Link to={`/editArticle/${article.id}`}>
+                                        {/* <Link to={`/editArticle/${article.id}`}>
                                             <button className="bg-gray-500 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded mr-40">
                                                 Edit
                                             </button>
+                                        </Link> */}
+                                        <Link to={`/editArticle/${article.id}`}>
+                                            <button className="bg-gray-500 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded mr-40">
+                                            Edit
+                                            </button>
                                         </Link>
+
                                         <button
                                             className="bg-gray-500 hover:bg-slate-600 text-white font-bold py-2 px-4 rounded"
                                             onClick={() => onDelete(article.id)}  // Pass the correct id here

@@ -8,7 +8,7 @@ function Main() {
   return (
     <div className='grid grid-rows-2'>
     
-        <NavBar/>
+       
         
         { auth.currentUser? 
          <Dashboard/>
